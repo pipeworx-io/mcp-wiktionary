@@ -2,14 +2,14 @@
 
 Wiktionary MCP — multilingual dictionary via Wikimedia REST + MediaWiki Action API
 
-Part of [Pipeworx](https://pipeworx.io) — an MCP gateway connecting AI agents to 673+ live data sources.
+Part of [Pipeworx](https://pipeworx.io) — an MCP gateway connecting AI agents to 965+ live data sources.
 
 ## Tools
 
 | Tool | Description |
 |------|-------------|
 | `definition` | Parsed definitions grouped by part-of-speech sections. |
-| `summary` | Page summary. |
+| `summary` | Fetch the Wiktionary REST page summary (title, extract, thumbnail) for a word on the specified language subdomain (default en). |
 | `search` | Wiktionary title + fulltext search. |
 | `etymology` | Etymology section extracted from wikitext. |
 | `pronunciations` | IPA / phonetic transcriptions extracted from wikitext. |
@@ -28,7 +28,7 @@ Add to your MCP client (Claude Desktop, Cursor, Windsurf, etc.):
 }
 ```
 
-Or connect to the full Pipeworx gateway for access to all 673+ data sources:
+Or connect to the full Pipeworx gateway for access to all 965+ data sources:
 
 ```json
 {

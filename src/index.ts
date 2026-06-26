@@ -41,7 +41,7 @@ const tools: McpToolExport['tools'] = [
   },
   {
     name: 'summary',
-    description: 'Page summary.',
+    description: 'Fetch the Wiktionary REST page summary (title, extract, thumbnail) for a word on the specified language subdomain (default en).',
     inputSchema: {
       type: 'object',
       properties: {
@@ -116,7 +116,15 @@ async function callTool(name: string, args: Record<string, unknown>): Promise<un
   }
 }
 
+// SSRF guard: `lang` is caller-supplied and interpolated into the host, so a
+// value like "evil.com/" would point the fetch at evil.com. Wiktionary language
+// codes are bare labels (en, zh-yue, …).
+function assertLang(lang: string): void {
+  if (!/^[a-z0-9-]{1,32}$/i.test(lang)) throw new Error(`Wiktionary: invalid lang "${lang}".`);
+}
+
 async function wikiRest(lang: string, path: string) {
+  assertLang(lang);
   const url = `https://${lang}.wiktionary.org/api/rest_v1${path}`;
   const res = await fetch(url, {
     headers: { Accept: 'application/json', 'User-Agent': UA },
@@ -130,6 +138,7 @@ async function wikiRest(lang: string, path: string) {
 }
 
 async function wikiAction(lang: string, params: Record<string, string>) {
+  assertLang(lang);
   const url = `https://${lang}.wiktionary.org/w/api.php?${new URLSearchParams(params)}`;
   const res = await fetch(url, {
     headers: { Accept: 'application/json', 'User-Agent': UA },
