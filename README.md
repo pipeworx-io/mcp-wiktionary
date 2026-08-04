@@ -1,18 +1,25 @@
-# mcp-wiktionary
+# @pipeworx/wiktionary
 
-Wiktionary MCP — multilingual dictionary via Wikimedia REST + MediaWiki Action API
+Wiktionary MCP — multilingual dictionary content via the MediaWiki REST API. ~6M entries across hundreds of languages. No auth.
 
-Part of [Pipeworx](https://pipeworx.io) — an MCP gateway connecting AI agents to 965+ live data sources.
+Part of [Pipeworx](https://pipeworx.io) — an MCP gateway connecting AI agents to 1394+ live data sources.
 
 ## Tools
 
-| Tool | Description |
-|------|-------------|
-| `definition` | Parsed definitions grouped by part-of-speech sections. |
-| `summary` | Fetch the Wiktionary REST page summary (title, extract, thumbnail) for a word on the specified language subdomain (default en). |
-| `search` | Wiktionary title + fulltext search. |
-| `etymology` | Etymology section extracted from wikitext. |
-| `pronunciations` | IPA / phonetic transcriptions extracted from wikitext. |
+- `definition(word, lang?)` — parsed definitions grouped by language section (uses Wikimedia's `rest_v1/page/definition`)
+- `summary(word, lang?)` — page summary
+- `search(query, lang?, limit?)` — title-prefix + fulltext search
+- `etymology(word, lang?)` — extracts the Etymology section
+- `pronunciations(word, lang?)` — extracts IPA pronunciation rows
+
+## Languages
+
+`lang` is the Wiktionary subdomain code: `en` (default), `fr`, `de`, `ja`, `zh`, `es`, ...
+
+## Data source
+
+- `https://<lang>.wiktionary.org/api/rest_v1/`
+- `https://<lang>.wiktionary.org/w/api.php` (for search + wikitext extraction)
 
 ## Quick Start
 
@@ -28,7 +35,7 @@ Add to your MCP client (Claude Desktop, Cursor, Windsurf, etc.):
 }
 ```
 
-Or connect to the full Pipeworx gateway for access to all 965+ data sources:
+Or connect to the full Pipeworx gateway for access to all 1394+ data sources:
 
 ```json
 {
@@ -52,7 +59,7 @@ The gateway picks the right tool and fills the arguments automatically.
 
 ## More
 
-- [All tools and guides](https://github.com/pipeworx-io/examples)
+- [Docs and guides](https://pipeworx.io/docs)
 - [pipeworx.io](https://pipeworx.io)
 
 ## License
