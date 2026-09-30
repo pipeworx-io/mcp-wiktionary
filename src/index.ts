@@ -703,7 +703,7 @@ const tools: McpToolExport['tools'] = [
   },
   {
     name: 'summary',
-    description: 'Fetch the Wiktionary REST page summary (title, extract, thumbnail) for a word on the specified language subdomain (default en).',
+    description: 'Fetch a plain-text summary extract of a Wiktionary entry (title, extract) for a word on the specified language subdomain (default en). Titles are case-sensitive.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -759,7 +759,7 @@ async function callTool(name: string, args: Record<string, unknown>): Promise<un
     case 'definition':
       return wikiRest(lang, `/page/definition/${encodeURIComponent(word)}`, word);
     case 'summary':
-      return wikiRest(lang, `/page/summary/${encodeURIComponent(word)}`, word);
+      return wikiSummary(lang, word);
     case 'search':
       return wikiAction(lang, {
         action: 'opensearch',
@@ -821,6 +821,61 @@ async function wikiAction(lang: string, params: Record<string, string>) {
     throw new Error(`Wiktionary error: ${res.status} ${t.slice(0, 200)}`);
   }
   return res.json();
+}
+
+// `summary` used to call REST `/page/summary/{word}`, and Wikimedia DOES NOT
+// SERVE THAT PATH FOR WIKTIONARY — it answers 404 with the body "Domain not
+// allowed" for every word, including ones that obviously exist. The pack read
+// any 404 as "no such word", so `cat`, `apple`, `love`, `verbum` and `maçã` all
+// came back `found: false` with a hint blaming the caller's capitalisation.
+// 100% of this tool's calls booked `empty`, which is the quiet failure class,
+// so nothing went red and the dead-tool sweep is what found it (2026-09-29).
+//
+// Worth being precise about the trap, because the 404 handler was itself a
+// well-intentioned fix: someone saw these 404s book as errors and reclassified
+// them as no-results. That silenced the alarm without checking WHICH 404 it
+// was — an endpoint that does not exist and a word that does not exist are the
+// same status code and opposite facts. The sibling REST path
+// `/page/definition/{word}` is fine and still used; it is only `summary` that
+// Wikimedia never served here.
+//
+// The Action API does serve it. A genuine miss is unambiguous there — the page
+// object carries `missing: true` and no `extract` — so the no-result contract
+// below is preserved for the case it was actually meant for.
+async function wikiSummary(lang: string, word: string) {
+  const data = (await wikiAction(lang, {
+    action: 'query',
+    prop: 'extracts',
+    titles: word,
+    explaintext: '1',
+    exchars: '1200',
+    redirects: '1',
+    format: 'json',
+    formatversion: '2',
+  })) as { query?: { pages?: { title?: string; pageid?: number; extract?: string; missing?: boolean }[] } };
+
+  const page = data.query?.pages?.[0];
+  if (!page || page.missing) {
+    return {
+      word,
+      found: false,
+      result_count: 0,
+      results: [],
+      hint: `No ${lang}.wiktionary.org entry titled "${word}". Titles are case-sensitive ("Paris" and "paris" are different pages) — use the wiktionary search tool to find the exact entry title.`,
+      empty_reason: 'no_match',
+    };
+  }
+
+  return {
+    word,
+    found: true,
+    result_count: 1,
+    title: page.title ?? word,
+    pageid: page.pageid,
+    extract: page.extract ?? '',
+    truncated: (page.extract?.length ?? 0) >= 1200,
+    source_url: `https://${lang}.wiktionary.org/wiki/${encodeURIComponent(page.title ?? word)}`,
+  };
 }
 
 async function extractSection(lang: string, word: string, sectionRe: RegExp) {

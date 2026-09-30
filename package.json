@@ -1,6 +1,6 @@
 {
   "name": "@pipeworx/mcp-wiktionary",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Wiktionary MCP — multilingual dictionary via Wikimedia REST + MediaWiki Action API",
   "type": "module",
   "main": "src/index.ts",
@@ -26,7 +26,7 @@
     "@cloudflare/workers-types": "^4.20260405.1"
   },
   "pipeworx": {
-    "sourceHash": "v1-2b1db47e9e77182d6a73b551ba6d157e044ba5dc9d8b94bdf14d36ea54cbc69f",
-    "sourceCommit": "2cb50b368da3267446f2b6f6a3ddbd3d0eed3d73"
+    "sourceHash": "v1-b78e2ed3bc9574bee92368ce9cc9edd5ccd7cdb14fa6e7e87308c5f742d288e7",
+    "sourceCommit": "75807802b8970530892c4a91635be352945ff935"
   }
 }
