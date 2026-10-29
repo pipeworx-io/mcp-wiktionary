@@ -1,0 +1,97 @@
+[
+  {
+    "name": "definition",
+    "description": "Parsed definitions grouped by part-of-speech sections.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "word": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string",
+          "description": "Wiktionary subdomain (en | fr | de | ja | ...)"
+        }
+      },
+      "required": [
+        "word"
+      ]
+    }
+  },
+  {
+    "name": "summary",
+    "description": "Fetch a plain-text summary extract of a Wiktionary entry (title, extract) for a word on the specified language subdomain (default en). Titles are case-sensitive.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "word": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "word"
+      ]
+    }
+  },
+  {
+    "name": "search",
+    "description": "Wiktionary title + fulltext search.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "number",
+          "description": "1-50 (default 10)"
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "etymology",
+    "description": "Etymology section extracted from wikitext.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "word": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "word"
+      ]
+    }
+  },
+  {
+    "name": "pronunciations",
+    "description": "IPA / phonetic transcriptions extracted from wikitext.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "word": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "word"
+      ]
+    }
+  }
+]

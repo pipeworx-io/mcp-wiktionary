@@ -1,12 +1,20 @@
 {
   "name": "@pipeworx/mcp-wiktionary",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Wiktionary MCP — multilingual dictionary via Wikimedia REST + MediaWiki Action API",
   "type": "module",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./tools.json": "./tools.json",
+    "./package.json": "./package.json"
+  },
   "bin": {
     "mcp-wiktionary": "bin/cli.js"
+  },
+  "files": ["bin/", "lib/", "tools.json", "server.json"],
+  "engines": {
+    "node": ">=18"
   },
   "keywords": ["mcp", "mcp-server", "model-context-protocol", "pipeworx", "wiktionary"],
   "license": "MIT",
@@ -14,19 +22,12 @@
     "type": "git",
     "url": "git+https://github.com/pipeworx-io/mcp-wiktionary.git"
   },
-  "scripts": {
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.30.0",
-    "tsx": "^4.19.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.9.3",
-    "@cloudflare/workers-types": "^4.20260405.1"
-  },
+  "mcpName": "io.github.pipeworx-io/wiktionary",
   "pipeworx": {
-    "sourceHash": "v1-b78e2ed3bc9574bee92368ce9cc9edd5ccd7cdb14fa6e7e87308c5f742d288e7",
-    "sourceCommit": "75807802b8970530892c4a91635be352945ff935"
+    "mode": "gateway",
+    "slug": "wiktionary",
+    "gatewaySlug": "wiktionary",
+    "sourceHash": "v1-ea174c84d77b180cf95ca11ec6b00edbde025da84968a720267f8bb1be6e4faf",
+    "sourceCommit": "98853f34516646cb7c4c1460f09249b262c0269e"
   }
 }
