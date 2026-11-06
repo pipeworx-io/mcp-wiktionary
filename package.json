@@ -1,6 +1,6 @@
 {
   "name": "@pipeworx/mcp-wiktionary",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Wiktionary MCP — multilingual dictionary via Wikimedia REST + MediaWiki Action API",
   "type": "module",
   "main": "lib/index.js",
@@ -27,7 +27,7 @@
     "mode": "gateway",
     "slug": "wiktionary",
     "gatewaySlug": "wiktionary",
-    "sourceHash": "v1-ea174c84d77b180cf95ca11ec6b00edbde025da84968a720267f8bb1be6e4faf",
-    "sourceCommit": "98853f34516646cb7c4c1460f09249b262c0269e"
+    "sourceHash": "v1-e4725a2bcf6db50da94b2d998b3ecb173f1fd88ab303bc5a440bca3c697ce4fb",
+    "sourceCommit": "78b905fa3a6880dfb85c79150f4bffe8cf50ef00"
   }
 }
